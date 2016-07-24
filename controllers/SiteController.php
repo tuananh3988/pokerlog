@@ -73,39 +73,17 @@ class SiteController extends Controller
     public function actionPlay()
     {
         $request = Yii::$app->request;
+        $players = [];
+        if ($request->isPost) {
+            $dataPost = $request->Post();
+            $playerName = $dataPost['Player']['player_name'];
+            $players = Player::find()->where("player_name like '%$playerName%'")->all();
+        }
+        
         $model = new Player();
-        return $this->render('play', ['model' => $model]);
+        return $this->render('play', ['model' => $model, 'players' => $players]);
     }
     
-    public function actionSearchPlayer() {
-        if (Yii::$app->request->isAjax) {
-            $request = Yii::$app->request;
-            Yii::$app->response->format = Response::FORMAT_JSON;
-            $dataPost = $request->Post();
-            $result = ['flag' => false];
-            $playerName = $dataPost['Player']['player_name'];
-            $player = Player::find()->where("player_name like '%$playerName%'")->all();
-            $html = '';
-            foreach ($player as $p) {
-                $html .= '<tr>';
-                $html .= "<td>$p->player_id</td>";
-                $html .= "<td>$p->player_name</td>";
-                $html .= "<td>$p->player_level</td>";
-                $html .= "<td></td>";
-                $html .= '</tr>';
-            }
-
-            
-            if ($player) {
-                $result = [
-                    'flag' => true,
-                    'data' => $html
-                ];
-            }
-            
-            return $result;
-        }
-    }
 
     /**
      * Login action.

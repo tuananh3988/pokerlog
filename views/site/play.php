@@ -50,25 +50,35 @@ $this->registerJs('searchUser();', View::POS_END);
                             <?= $form->field($model, 'player_name', ['template' => '{input}{error}'])->textInput(['autofocus' => true, 'class' => 'form-control col-md-7 col-xs-12'])->label(''); ?>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                            <button type="button" id="search" data-url="<?= Url::to(['/site/search-player']) ?>" class="btn btn-success">Search</button>
+                            <button type="submit" id="search" class="btn btn-success">Search</button>
                         </div>
                     </div>
                     
                     <div class="form-group table-responsive" id="user-info" style="text-align: center;">
-                        <label style="color: red;display: none;" class="control-label col-md-3 col-sm-3 col-xs-12">No user found</label>
-                        <table class="table table-bordered" style="display: none;">
-                            <thead>
-                              <tr>
-                                <th>id</th>
-                                <th>name</th>
-                                <th>level</th>
-                                <th></th>
-                              </tr>
-                            </thead>
-                            <tbody class="body_append">
-                              
-                            </tbody>
-                          </table>
+                        <?php if(empty($players)): ?>
+                        <label style="color: red;" class="control-label col-md-3 col-sm-3 col-xs-12">No user found</label>
+                        <?php else: ?>
+                            <table class="table table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>id</th>
+                                    <th>name</th>
+                                    <th>level</th>
+                                    <th></th>
+                                  </tr>
+                                </thead>
+                                <tbody class="body_append">
+                                    <?php foreach ($players as $p): ?>
+                                    <tr>
+                                        <td><?= $p->player_id; ?></td>
+                                        <td><?= $p->player_name; ?></td>
+                                        <td><?= $p->player_level; ?></td>
+                                        <td><button onclick="pushPlayerToList('<?= $p->player_id; ?>')">Add table</button></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                              </table>
+                        <?php endif; ?>
                         <?php if (Yii::$app->session->getAllFlashes()): ?>
                         <?php foreach (Yii::$app->session->getAllFlashes() as $key => $message) : ?>
                                 <div class="alert alert-<?= $key ?> alert-dismissible fade in" role="alert">
