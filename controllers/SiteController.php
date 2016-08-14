@@ -80,8 +80,15 @@ class SiteController extends Controller
             $players = Player::find()->where("player_name like '%$playerName%'")->all();
         }
         
+        $playerChose = $request->get('players');
+        $playerObject = '';
+        if (!empty($playerChose)) {
+            $playerArr = explode(',', $playerChose);
+            $playerObject = Player::find()->where(['in', 'player_id', $playerArr])->all();
+        }
+
         $model = new Player();
-        return $this->render('play', ['model' => $model, 'players' => $players]);
+        return $this->render('play', ['model' => $model, 'players' => $players, 'playerObject' => $playerObject]);
     }
     
 

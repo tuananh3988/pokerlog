@@ -25,7 +25,17 @@
             players.push(id);
         }
         
-        window.location.href = '/site/play/?players=' + players.join();
+        window.location.href = '/site/play?players=' + players.join();
+    }
+    
+    function removePlayerToList(id) {
+        var players = getListIdPlayer();
+        var index = players.indexOf(id);
+        if ( index > -1) {
+            players.splice(index, 1);
+        }
+        
+        window.location.href = '/site/play?players=' + players.join();
     }
 
 

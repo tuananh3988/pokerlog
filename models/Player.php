@@ -49,4 +49,8 @@ class Player extends \yii\db\ActiveRecord
             'created_date' => 'Created Date',
         ];
     }
+    
+    public function getLog() {
+        return Log::findAll(['player_id' => $this->player_id]);
+    }
 }

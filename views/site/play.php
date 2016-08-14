@@ -55,9 +55,7 @@ $this->registerJs('searchUser();', View::POS_END);
                     </div>
                     
                     <div class="form-group table-responsive" id="user-info" style="text-align: center;">
-                        <?php if(empty($players)): ?>
-                        <label style="color: red;" class="control-label col-md-3 col-sm-3 col-xs-12">No user found</label>
-                        <?php else: ?>
+                        <?php if(!empty($players)): ?>
                             <table class="table table-bordered">
                                 <thead>
                                   <tr>
@@ -77,7 +75,7 @@ $this->registerJs('searchUser();', View::POS_END);
                                     </tr>
                                     <?php endforeach; ?>
                                 </tbody>
-                              </table>
+                            </table>
                         <?php endif; ?>
                         <?php if (Yii::$app->session->getAllFlashes()): ?>
                         <?php foreach (Yii::$app->session->getAllFlashes() as $key => $message) : ?>
@@ -86,6 +84,35 @@ $this->registerJs('searchUser();', View::POS_END);
                         <?= $message ?>
                                 </div>
                         <?php endforeach; ?>
+                        <?php endif; ?>
+                    </div>
+                    
+                    <div class="form-group table-responsive" id="user-info" style="text-align: center;">
+                        <?php if(!empty($playerObject)): ?>
+                            <table class="table table-bordered">
+                                <thead>
+                                  <tr>
+                                    <th>id</th>
+                                    <th>name</th>
+                                    <th>log</th>
+                                    <th></th>
+                                  </tr>
+                                </thead>
+                                <tbody class="body_append">
+                                    <?php foreach ($playerObject as $p): ?>
+                                    <tr>
+                                        <td><?= $p->player_id; ?></td>
+                                        <td><?= $p->player_name; ?></td>
+                                        <td>
+                                            <?php foreach ($p->getLog() as $l): ?>
+                                            <p><?= $l->content; ?></p>
+                                            <?php endforeach; ?>
+                                        </td>
+                                        <td><button onclick="removePlayerToList('<?= $p->player_id; ?>')">Leave table</button></td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
                         <?php endif; ?>
                     </div>
                 </div>
