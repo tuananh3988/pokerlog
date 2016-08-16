@@ -28,8 +28,8 @@ class Log extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['log_id', 'player_id', 'content', 'created_date'], 'required'],
-            [['log_id', 'player_id'], 'integer'],
+            [['player_id', 'content', 'created_date'], 'required'],
+            [['player_id'], 'integer'],
             [['content'], 'string'],
             [['created_date'], 'safe'],
         ];

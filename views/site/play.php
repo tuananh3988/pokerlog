@@ -47,7 +47,7 @@ $this->registerJs('searchUser();', View::POS_END);
                     <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="search_value">Player name: </label>
                         <div class="col-md-3 col-sm-3 col-xs-12">
-                            <?= $form->field($model, 'player_name', ['template' => '{input}{error}'])->textInput(['autofocus' => true, 'class' => 'form-control col-md-7 col-xs-12'])->label(''); ?>
+                            <?= $form->field($model, 'player_name', ['template' => '{input}'])->textInput(['autofocus' => true, 'class' => 'form-control col-md-7 col-xs-12'])->label(''); ?>
                         </div>
                         <div class="col-md-3 col-sm-3 col-xs-12">
                             <button type="submit" id="search" class="btn btn-success">Search</button>
@@ -76,7 +76,20 @@ $this->registerJs('searchUser();', View::POS_END);
                                     <?php endforeach; ?>
                                 </tbody>
                             </table>
+
                         <?php endif; ?>
+                         
+                    </div>
+                    <div class="form-group">
+                            <label class="control-label col-md-3 col-sm-3 col-xs-12" for="search_value">Player name: </label>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <input class="form-control col-md-7 col-xs-12" id="add-player-text" type="text" value="<?= $model->player_name; ?>" />
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-12">
+                                <button type="button" id="add-player" class="btn btn-success">add player</button>
+                            </div>
+                        </div>
+
                         <?php if (Yii::$app->session->getAllFlashes()): ?>
                         <?php foreach (Yii::$app->session->getAllFlashes() as $key => $message) : ?>
                                 <div class="alert alert-<?= $key ?> alert-dismissible fade in" role="alert">
@@ -85,26 +98,25 @@ $this->registerJs('searchUser();', View::POS_END);
                                 </div>
                         <?php endforeach; ?>
                         <?php endif; ?>
-                    </div>
                     
                     <div class="form-group table-responsive" id="user-info" style="text-align: center;">
                         <?php if(!empty($playerObject)): ?>
                             <table class="table table-bordered">
                                 <thead>
                                   <tr>
-                                    <th>id</th>
+                                    <th>stt</th>
                                     <th>name</th>
                                     <th>log</th>
                                     <th></th>
                                   </tr>
                                 </thead>
                                 <tbody class="body_append">
-                                    <?php foreach ($playerObject as $p): ?>
+                                    <?php foreach ($playerObject as $k => $p): ?>
                                     <tr>
-                                        <td><?= $p->player_id; ?></td>
+                                        <td><?= $k+1; ?></td>
                                         <td><?= $p->player_name; ?></td>
                                         <td>
-                                            <div class="wrap-log-<?= $p->player_id;?>"
+                                            <div class="wrap-log-<?= $p->player_id;?>">
                                                 <?php foreach ($p->getLog() as $l): ?>
                                                 <p><?= $l->content; ?></p>
                                                 <?php endforeach; ?>

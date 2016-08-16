@@ -29,8 +29,8 @@ class Player extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['player_id', 'player_name', 'player_level', 'place_id', 'created_date'], 'required'],
-            [['player_id', 'player_level', 'place_id'], 'integer'],
+            [['player_name', 'player_level', 'place_id', 'created_date'], 'required'],
+            [['player_level', 'place_id'], 'integer'],
             [['created_date'], 'safe'],
             [['player_name'], 'string', 'max' => 255],
         ];

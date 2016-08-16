@@ -73,9 +73,11 @@ class SiteController extends Controller
     public function actionPlay()
     {
         $request = Yii::$app->request;
+        $model = new Player();
         $players = [];
         if ($request->isPost) {
             $dataPost = $request->Post();
+            $model->player_name = $dataPost['Player']['player_name'];
             $playerName = $dataPost['Player']['player_name'];
             $players = Player::find()->where("player_name like '%$playerName%'")->all();
         }
@@ -87,10 +89,41 @@ class SiteController extends Controller
             $playerObject = Player::find()->where(['in', 'player_id', $playerArr])->all();
         }
 
-        $model = new Player();
+        
         return $this->render('play', ['model' => $model, 'players' => $players, 'playerObject' => $playerObject]);
     }
     
+    public function actionAddLog()
+    {
+        $request = Yii::$app->request;
+        $dataPost = $request->Post();
+        if (!empty($dataPost['id']) && !empty($dataPost['content'])) {
+            $log = new \app\models\Log();
+            $log->player_id = $dataPost['id'];
+            $log->content = $dataPost['content'];
+            $log->created_date = date("Y-m-d H:i:s");
+            $log->save();
+        }
+         
+    }
+    
+    public function actionAddPlayer()
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        
+        $request = Yii::$app->request;
+        $dataPost = $request->Post();
+        if (!empty($dataPost['name'])) {
+            $player = new \app\models\Player();
+            $player->player_name = $dataPost['name'];
+            $player->player_level = 1;
+            $player->place_id = 1;
+            $player->created_date = date("Y-m-d H:i:s");
+            $player->save();
+        }
+        
+        return ['id' => $player->player_id];
+    }
 
     /**
      * Login action.
