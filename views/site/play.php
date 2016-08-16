@@ -104,9 +104,13 @@ $this->registerJs('searchUser();', View::POS_END);
                                         <td><?= $p->player_id; ?></td>
                                         <td><?= $p->player_name; ?></td>
                                         <td>
-                                            <?php foreach ($p->getLog() as $l): ?>
-                                            <p><?= $l->content; ?></p>
-                                            <?php endforeach; ?>
+                                            <div class="wrap-log-<?= $p->player_id;?>"
+                                                <?php foreach ($p->getLog() as $l): ?>
+                                                <p><?= $l->content; ?></p>
+                                                <?php endforeach; ?>
+                                            </div>
+                                            <input id="log-<?= $p->player_id;?>" type="text" />
+                                            <button class="add-log" data-id="<?= $p->player_id;?>">add</button>
                                         </td>
                                         <td><button onclick="removePlayerToList('<?= $p->player_id; ?>')">Leave table</button></td>
                                     </tr>
